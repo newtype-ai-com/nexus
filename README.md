@@ -51,8 +51,7 @@ go test ./...   # PostgreSQL tests skip unless their *_DSN variables point at a 
 ## Status
 
 Early. Interfaces and the schema may change. Security reports:
-security@newtype-ai.com (see [SECURITY.md](SECURITY.md)).
-<!-- TODO(owner): confirm the security contact address before making this repository public. -->
+[louisevandan@gmail.com](mailto:louisevandan@gmail.com) (see [SECURITY.md](SECURITY.md)).
 
 ## License
 
