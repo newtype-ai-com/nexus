@@ -9,7 +9,7 @@ import (
 )
 
 // Shared look of the approval mails and landing pages (decision 2026-10-04:
-// "승인 메일도 예쁘게 디자인해줘. 버튼도 크게 만들어줘.").
+// "Make the approval mails look good too. Make the buttons big as well.").
 //
 // Landing pages carry exactly one inline <style> element whose bytes are the
 // constant below. The CSP admits it by hash only, so no other inline style,

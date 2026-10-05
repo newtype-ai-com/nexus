@@ -1,4 +1,4 @@
-# LOCAL TRIAL ONLY (docs/selfhost.md, "로컬 시험"). Layered on compose.yaml:
+# LOCAL TRIAL ONLY (docs/selfhost.md §9, "Local trial"). Layered on compose.yaml:
 #   docker compose -f compose.yaml -f dev/compose.dev.yaml ...
 # Adds HTTPS at https://nexus.localtest (dev CA), a mail sink that stands in
 # for Resend (mail is printed to `docker compose logs mailsink`), and a Linux
