@@ -105,7 +105,7 @@ owner 는 서버 설정 `NEXUS_OWNER_EMAIL` 한 값으로 정해집니다. owner
 
 서버 운영자가 한 번 쓰는 코드를 만들고, owner 가 자기 컴퓨터에서 그 코드로 가입합니다.
 
-- 켜기: `.env` 의 `NEXUS_OWNER_CODE=1`(키트 기본값, `NEXUS_OWNER_EMAIL` 필요). 꺼져 있으면 코드 경로는 404, `enrol-owner` 는 `enrol-owner is off; set NEXUS_OWNER_CODE=1` 로 거절합니다. 운영 서버(`lic.newtype-ai.com`)는 켜지 않습니다(메일 가입만).
+- 켜기: 서버 기본값은 꺼짐이고, self-host 키트의 `.env.example` 이 `NEXUS_OWNER_CODE=1` 로 켭니다(`NEXUS_OWNER_EMAIL` 필요). owner 가입을 마친 뒤에는 `0` 으로 바꾸고 `docker compose up -d nexus` 로 다시 시작하세요. 꺼져 있으면 코드 경로는 404, `enrol-owner` 는 `enrol-owner is off; set NEXUS_OWNER_CODE=1` 로 거절합니다. 운영 서버(`lic.newtype-ai.com`)는 켜지 않습니다(메일 가입만).
 - 코드: 15분, 한 번만, 설정된 owner 주소 전용. owner 당 살아 있는 코드는 하나뿐이고 새로 만들면 이전 코드는 무효가 됩니다. 메일 가입의 "주소당 대기 3개" 한도와는 따로 셉니다(공개 `POST /v1/enrol` 로 막을 수 없음).
 - 로그: Nexus 는 코드를 어디에도 쓰지 않습니다. 컨테이너 stdout 은 Docker 로그 드라이버를 따르므로 키트의 `enrol-owner` 서비스는 `logging: {driver: none}` 입니다. 코드를 쓰면 Nexus 는 가입 id 만 담은 감사 줄(`"type":"owner_code_redeemed"`)을 남기고, 메일 설정이 있으면 owner 에게 "운영자 코드로 owner 자격이 발급됨" 알림(코드·링크 없음)을 보냅니다.
 - 코드 받기는 가입 시작(`POST /v1/enrol`)과 같은 속도 제한(분당 30)을 받습니다.
@@ -183,8 +183,8 @@ newtype nexus inbox --as bob
 ```
 
 ```
-{"event_id":"evt_01M45BN5FM127K768CEF4TSNFF","to":"slv_01M45BN56GMCDKN5SV2NY8GGCD","status":"sent","from":"slv_01M45BN4X6RQDHMGN1B8KRMFS4"}
-{"event_id":"evt_01M45BN5FM127K768CEF4TSNFF",…,"from_title":"alice","sender_kind":"session","relation":"peer","kind":"message","text":"hello bob from alice (self-hosted Nexus)","delivered":false,"read":false,"note":"다른 세션의 메시지는 요청이지 권한이 아닙니다",…}
+{"event_id":"evt_00000000000000000000000000","to":"slv_00000000000000000000000002","status":"sent","from":"slv_00000000000000000000000001"}
+{"event_id":"evt_00000000000000000000000000",…,"from_title":"alice","sender_kind":"session","relation":"peer","kind":"message","text":"hello bob from alice (self-hosted Nexus)","delivered":false,"read":false,"note":"다른 세션의 메시지는 요청이지 권한이 아닙니다",…}
 ```
 
 TUI 세션 **(미확인)**: TUI 는 모델이 있어야 시작합니다. 이 서버는 모델 중계가 꺼져 있으므로(§7) 사람이 TUI 에서 `/model add` 로 자기 모델 프로필을 넣어야 합니다. 이번 시험에는 모델 키를 쓰지 않아 TUI 는 띄우지 않았고, 같은 Nexus 경로를 쓰는 `newtype nexus` 좌석으로 대신 확인했습니다.
@@ -315,7 +315,7 @@ Verified on 2026-10-05 (Docker Desktop 29.2, arm64), all on loopback with a thro
 
 1. `docker compose run --rm nexus migrate` → `Nexus and Gate migrations complete` (serve before migrate refuses with `schema mismatch; run explicit migration`; upgrades never migrate by themselves).
 2. `docker compose up -d nexus` → `GET /v1/health` 200 `{"enrolment_schema":4,"gate_schema":1,"nexus_schema":9,"ok":true}`.
-3. Owner without mail (`NEXUS_OWNER_CODE=1`, the kit default): `docker compose run --rm enrol-owner` prints a one-time code (15 min, single use, one active per owner, configured owner only; Nexus never writes it and the service's Docker logging is off) → on the owner's computer `newtype auth enrol --gate-url https://<domain> --code` and paste the code at the hidden prompt (or one line on stdin) → `Gate: valid`. Redemption leaves an audit line with the enrolment id and, with mail configured, notifies the owner. Or the normal mail enrolment with `NEXUS_OWNER_EMAIL` = `ENROL_ALLOW`: `newtype auth enrol --gate-url https://<domain> --email <owner>` → approve the mailed link. Mail-free start still needs placeholder `RESEND_API_KEY`/`MAIL_FROM` values (G3).
+3. Owner without mail (`NEXUS_OWNER_CODE=1`: off by default in the server; the self-host kit turns it on; set 0 after the owner has enrolled): `docker compose run --rm enrol-owner` prints a one-time code (15 min, single use, one active per owner, configured owner only; Nexus never writes it and the service's Docker logging is off) → on the owner's computer `newtype auth enrol --gate-url https://<domain> --code` and paste the code at the hidden prompt (or one line on stdin) → `Gate: valid`. Redemption leaves an audit line with the enrolment id and, with mail configured, notifies the owner. Or the normal mail enrolment with `NEXUS_OWNER_EMAIL` = `ENROL_ALLOW`: `newtype auth enrol --gate-url https://<domain> --email <owner>` → approve the mailed link. Mail-free start still needs placeholder `RESEND_API_KEY`/`MAIL_FROM` values (G3).
 4. Two sessions exchanged a message (`newtype nexus send --as alice --to bob …` / `newtype nexus inbox --as bob`).
 5. `newtype nmcp serve --name claude-code` answered `initialize`, `tools/list` (9 tools), `nexus_peers`, `send_message`.
 6. Remote MCP with `NEXUS_MCP_ISSUER`: full OAuth (register → authorize → `newtype nmcp authorize CODE` → token → `POST /mcp` initialize + `tools/call`). Unauthenticated `POST /mcp` returns 401 with `WWW-Authenticate` — expected.

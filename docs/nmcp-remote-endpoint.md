@@ -54,7 +54,7 @@ Nexus 서버는 **보호 자원 서버**이자, 지금 단계에서는 같은 �
   2. **CLI 확인**: 페이지에 8자리 사용자 코드 → 살아 있는 로그인이 있는 사람이 `newtype nmcp authorize CODE` (기존 기기 흐름 `/v1/device` 와 같은 모양) → 페이지가 진행.
   - 둘 다 **이미 있는 로그인·메일 경로**를 쓴다. 비밀번호 입력 없음.
   - 페이지는 `X-Frame-Options: DENY`, CSP(`script-src 'self'`, `frame-ancestors 'none'`), `no-store`. 페이지를 여는 것만으로는 아무것도 허락되지 않는다. 대기 요청은 15분, 최대 256개(메모리).
-  - **나중(패스키)**: 동의 페이지에서 WebAuthn 어서션(계정 루트 패스키)으로 바로 확인. 패스키 도메인이 생기면 1·2 를 대체한다(`docs/03-mandate.md` 의 패스키 설계와 같은 키).
+  - **나중(패스키)**: 동의 페이지에서 WebAuthn 어서션(계정 루트 패스키)으로 바로 확인. 패스키 도메인이 생기면 1·2 를 대체한다(클라이언트의 패스키 설계와 같은 키; client, not in this repository).
 - 코드: `mca_…` 1회용, 60초, PKCE `S256` 검증, client_id·redirect_uri·resource 와 묶임. 두 번 쓰면 그 코드로 발급된 토큰을 모두 철회(RFC 6749 §4.1.2 권고).
 
 ### 2.4 토큰

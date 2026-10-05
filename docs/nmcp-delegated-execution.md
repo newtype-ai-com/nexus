@@ -4,7 +4,7 @@
 
 ## 배경
 
-오늘 운영자 좌석이 TUI 세션에 보낸 Nexus 메시지는 전달됐고 읽혔지만, TUI 의 자동 inbox 턴은 도구를 실행하지 않았다. 이것이 맞는 동작이다. **메시지는 요청이지 권한이 아니다.** 지금은 사람이 입력한 턴만 실행한다. 그래서 사람이 TUI 에 "진행해" 를 직접 쳐야 했다.
+grant 도입 이전에는 다른 세션이 보낸 Nexus 메시지가 전달되고 읽혀도 TUI 의 자동 inbox 턴은 도구를 실행하지 않았다. 이것은 맞는 동작이었다. **메시지는 요청이지 권한이 아니다.** 사람이 입력한 턴만 실행했으므로 사람이 TUI 에 "진행해" 를 직접 쳐야 했다. 이것이 grant 를 도입한 이유다. grant 이후 위임 작업은 그 범위 안에서 사람 개입 없이 끝까지 진행된다.
 
 필요한 것은 **사람이 범위를 정해 내주는 실행 허가(grant)** 다. 예: "운영자의 작업 메시지는 저장소 X 안에서 파일 수정과 테스트를 8시간 동안, 최대 N턴까지 실행해도 된다". 받는 세션은 그 범위 안의 Nexus 발 작업을 사람 입력 없이 실행한다.
 - 범위 밖은 거부하거나 승인 요청으로 넘긴다. 사람이 앞에 있으면 그 자리에서 묻고, 없으면 거부한다(메일 승인은 2단계).
@@ -122,8 +122,8 @@
 ## 7. 클라이언트 작업 목록(클라이언트 저장소)
 
 1. `core/inbox.go`, `core/inbox_turn.go`: `InboxMessage` 에 `Event`, `Seq`, `From`, `SenderKind` 를 더한다. 지금은 Text 에만 직렬화된다. 턴 상태에 근거 메시지를 둔다(턴에 메시지가 여럿이면 각각을 근거로 쓸 수 있다).
-2. `internal/nexusinbox/model.go`: `Pending` → `core.InboxMessage` 변환에서 위 필드를 그대로 넘긴다.
-3. `internal/launcher/launcher.go`(Gate 와 Approve 자리, 274·338–380 근처): inbox 턴이면 `POST /v1/execution-grants/{id}/decide` 를 부르고 allow / ask / deny 로 나눈다. 경로는 정규화와 realpath 를 거친 값이다.
+2. `internal/nexusinbox/model.go`(client, not in this repository): `Pending` → `core.InboxMessage` 변환에서 위 필드를 그대로 넘긴다.
+3. `internal/launcher/launcher.go`(client, not in this repository; Gate 와 Approve 자리): inbox 턴이면 `POST /v1/execution-grants/{id}/decide` 를 부르고 allow / ask / deny 로 나눈다. 경로는 정규화와 realpath 를 거친 값이다.
 4. grant 발급·목록·철회 UI: TUI 명령 `/grant`, `/grants`, `/revoke-grant`. CLI `newtype nexus grant|grants|revoke-grant`. 발급은 사람 인증(세션 헤더 없음)으로만 한다.
 5. ask 의 사람 승인 프롬프트에 grant 범위 밖이라는 사실과 근거 메시지의 보낸 이를 보여 준다. "이번만" / "이 세션 동안" 을 고르게 한다. "이 세션 동안" 은 로컬 결정이며 서버 grant 를 넓히지 않는다.
 6. 원장에 남는 클라이언트 쪽 근거: 실행한 도구의 `tool.*` 기록에 `grant_id`, `source_event`, `input_hash` 를 넣는다(서버 `decided` 와 맞춰 볼 수 있게).

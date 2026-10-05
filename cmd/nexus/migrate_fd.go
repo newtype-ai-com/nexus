@@ -41,7 +41,7 @@ import (
 // allowlist below; nothing else (tokens, sealing keys, mail) is read. No
 // DATABASE_URL is set and no process is spawned. verify-full/CA/port/schema/
 // role checks are those of nexusserver.ConfigFromEnv; NEXUS_DB_ROLE (the SET
-// ROLE identity, e.g. newtype_migrator) is required, the session user is the
+// ROLE identity, e.g. nexus_migrator) is required, the session user is the
 // DSN user. Authentication is SCRAM-SHA-256 only (pgstore.Config.RequireSCRAM).
 // Errors are fixed strings.
 const (

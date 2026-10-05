@@ -1,4 +1,5 @@
-// Command nexus serves Cloudflare Containers using a Supabase session database.
+// Command nexus runs the Nexus server (serve, migrate, provision, approvals,
+// enrol-owner) against a PostgreSQL database.
 package main
 
 import (

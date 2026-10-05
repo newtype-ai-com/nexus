@@ -184,8 +184,8 @@ func TestServeStoreConfigProductionRequiresSCRAM(t *testing.T) {
 	dir := t.TempDir()
 	tlsConf := serveFixtureTLS(t, dir)
 	ca := filepath.Join(dir, "ca.pem")
-	prodDSN := "postgres://newtype_runtime:" + serveSentinel + "@127.0.0.1:5432/newtype?sslmode=verify-full&sslrootcert=" + url.QueryEscape(ca) + "&connect_timeout=3"
-	env := map[string]string{"DATABASE_URL": prodDSN, "NEXUS_DB_SCHEMA": "newtype_test", "NEXUS_DB_ROLE": "newtype_runtime"}
+	prodDSN := "postgres://nexus_runtime:" + serveSentinel + "@127.0.0.1:5432/nexus?sslmode=verify-full&sslrootcert=" + url.QueryEscape(ca) + "&connect_timeout=3"
+	env := map[string]string{"DATABASE_URL": prodDSN, "NEXUS_DB_SCHEMA": "newtype_test", "NEXUS_DB_ROLE": "nexus_runtime"}
 	cfg, err := nexusserver.ConfigFromEnv(func(k string) string { return env[k] })
 	if err != nil {
 		t.Fatal(err)
@@ -238,7 +238,7 @@ func TestServeRunRefusesCleartextBeforePassword(t *testing.T) {
 			clearServeEnv(t)
 			ln := listenLoopback(t)
 			fake := newCleartextPG(t, ln, nil)
-			t.Setenv("DATABASE_URL", "postgres://newtype_runtime:"+serveSentinel+"@"+ln.Addr().String()+"/newtype?sslmode=disable&connect_timeout=3")
+			t.Setenv("DATABASE_URL", "postgres://nexus_runtime:"+serveSentinel+"@"+ln.Addr().String()+"/nexus?sslmode=disable&connect_timeout=3")
 			t.Setenv("NEXUS_DB_SCHEMA", "newtype_test")
 			t.Setenv("NEXUS_ALLOW_LOCAL_DB", "1")
 			t.Setenv("NEXUS_DB_REQUIRE_SCRAM", tc.setting)
@@ -275,7 +275,7 @@ func TestServeRunProductionPortRefusesCleartext(t *testing.T) {
 	clearServeEnv(t)
 	dir := t.TempDir()
 	fake := newCleartextPG(t, ln, serveFixtureTLS(t, dir))
-	t.Setenv("DATABASE_URL", "postgres://newtype_runtime:"+serveSentinel+"@127.0.0.1:5432/newtype?sslmode=verify-full&sslrootcert="+url.QueryEscape(filepath.Join(dir, "ca.pem"))+"&connect_timeout=3")
+	t.Setenv("DATABASE_URL", "postgres://nexus_runtime:"+serveSentinel+"@127.0.0.1:5432/nexus?sslmode=verify-full&sslrootcert="+url.QueryEscape(filepath.Join(dir, "ca.pem"))+"&connect_timeout=3")
 	t.Setenv("NEXUS_DB_SCHEMA", "newtype_test")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

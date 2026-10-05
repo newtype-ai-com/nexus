@@ -3,6 +3,7 @@ package nexusserver
 import (
 	"bytes"
 	"encoding/base64"
+	"strings"
 	"testing"
 )
 
@@ -53,10 +54,37 @@ func TestEnrolmentConfigRequiresCompleteSettings(t *testing.T) {
 	}
 }
 
+func TestAdminTokenMinimumLength(t *testing.T) {
+	base := map[string]string{"DATABASE_URL": "postgres://user:fixture@127.0.0.1/db?sslmode=disable", "NEXUS_DB_SCHEMA": "private_test", "NEXUS_ALLOW_LOCAL_DB": "1",
+		"BASE_URL": "https://example.test", "ENROL_ALLOW": "example.test", "MAIL_FROM": "sender@example.test", "RESEND_API_KEY": "fixture"}
+	get := func(k string) string { return base[k] }
+	for _, tc := range []struct {
+		token string
+		ok    bool
+	}{
+		{"", true},
+		{strings.Repeat("a", MinAdminTokenLength-1), false},
+		{strings.Repeat("a", MinAdminTokenLength), true},
+		{strings.Repeat("0f", 32), true}, // openssl rand -hex 32
+	} {
+		base["ADMIN_TOKEN"] = tc.token
+		cfg, err := ConfigFromEnv(get)
+		if (err == nil) != tc.ok {
+			t.Fatalf("ADMIN_TOKEN length %d: err=%v", len(tc.token), err)
+		}
+		if err != nil && strings.Contains(err.Error(), tc.token) {
+			t.Fatal("error echoes the token")
+		}
+		if err == nil && cfg.EnrolmentConfig.AdminToken != tc.token {
+			t.Fatal("ADMIN_TOKEN not carried")
+		}
+	}
+}
+
 // BBP-R1: SCRAM-only database authentication is on for every production
 // (non-development) configuration and cannot be switched off there.
 func TestDBRequireSCRAMDefaultsOnForProduction(t *testing.T) {
-	prod := map[string]string{"DATABASE_URL": "postgres://newtype_runtime@db.example:5432/db?sslmode=verify-full", "NEXUS_DB_SCHEMA": "newtype_test"}
+	prod := map[string]string{"DATABASE_URL": "postgres://nexus_runtime@db.example:5432/db?sslmode=verify-full", "NEXUS_DB_SCHEMA": "newtype_test"}
 	dev := map[string]string{"DATABASE_URL": "postgres://user:fixture@127.0.0.1/db?sslmode=disable", "NEXUS_DB_SCHEMA": "private_test", "NEXUS_ALLOW_LOCAL_DB": "1"}
 	for _, tc := range []struct {
 		name    string
@@ -88,7 +116,7 @@ func TestDBRequireSCRAMDefaultsOnForProduction(t *testing.T) {
 		})
 	}
 	// Loopback without the explicit development flag is production.
-	loop := map[string]string{"DATABASE_URL": "postgres://newtype_runtime@127.0.0.1:5432/db?sslmode=verify-full", "NEXUS_DB_SCHEMA": "newtype_test"}
+	loop := map[string]string{"DATABASE_URL": "postgres://nexus_runtime@127.0.0.1:5432/db?sslmode=verify-full", "NEXUS_DB_SCHEMA": "newtype_test"}
 	if cfg, err := ConfigFromEnv(func(k string) string { return loop[k] }); err != nil || !cfg.DBRequireSCRAM {
 		t.Fatalf("loopback production config: err=%v require=%v", err, cfg.DBRequireSCRAM)
 	}

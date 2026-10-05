@@ -71,7 +71,7 @@ plain `newtype` 은 도구가 0개로 시작한다(기본 허용 목록이 비�
 
 **옛 이름**: `hub_peers`·`hub_inbox`·`hub_tree`·`hub_log` 는 한 전환 기간 동안 `tools/call` 에서만 받는다(숨은 별칭, `tools/list` 에 없음, 원장 기록에는 `alias` 로 남김). 엔진은 `hub_*` 를 낸 적이 없어 엔진 쪽 개명은 없다.
 
-**엔진의 기존 Nexus 도구와의 관계**: TUI 엔진(`internal/nexustools`, `--nexus-tools`)은 지금도 `nexus_send`·`nexus_peers`·`nexus_inbox`(공유 모델 큐, 읽음은 모델 제공자 수락 후 core 가 기록)·`nexus_tasks`·`nexus_delegate`·`nexus_execute` 등을 낸다. 같은 서버 경로·같은 "읽음" 기준을 쓰지만 이름·인자가 다른 것이 있다(`nexus_send`↔`send_message`, `nexus_delegate`↔`delegate_task`). 엔진을 이 계약 도구로 옮기는 것은 다음 단계다(아래 한계).
+**엔진의 기존 Nexus 도구와의 관계**: TUI 엔진(`internal/nexustools`, client, not in this repository; `--nexus-tools`)은 지금도 `nexus_send`·`nexus_peers`·`nexus_inbox`(공유 모델 큐, 읽음은 모델 제공자 수락 후 core 가 기록)·`nexus_tasks`·`nexus_delegate`·`nexus_execute` 등을 낸다. 같은 서버 경로·같은 "읽음" 기준을 쓰지만 이름·인자가 다른 것이 있다(`nexus_send`↔`send_message`, `nexus_delegate`↔`delegate_task`). 엔진을 이 계약 도구로 옮기는 것은 다음 단계다(아래 한계).
 
 ### 결과와 오류
 

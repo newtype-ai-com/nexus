@@ -46,7 +46,7 @@ type Config struct {
 	DBRequireSCRAM bool
 	Port           string
 	// BindHost is empty (all interfaces, the container default) or a loopback
-	// IP literal; production host networking binds 127.0.0.1 only.
+	// IP literal (for example 127.0.0.1 behind a local reverse proxy).
 	BindHost string
 	// Operator-changeable default model (docs/default-model-operator.md).
 	// DefaultModelStore holds only a sealed envelope; the approvals URL/token
@@ -66,6 +66,10 @@ type Config struct {
 
 // ConfigFromEnv rejects implicit databases and unverified remote TLS. The local
 // development exception is deliberately limited to literal loopback addresses.
+// MinAdminTokenLength is the shortest accepted ADMIN_TOKEN (for example
+// `openssl rand -hex 32` gives 64 characters).
+const MinAdminTokenLength = 32
+
 func ConfigFromEnv(get func(string) string) (Config, error) {
 	c := Config{DSN: get("DATABASE_URL"), Schema: get("NEXUS_DB_SCHEMA"), Port: get("PORT")}
 	c.DBRole = get("NEXUS_DB_ROLE")
@@ -142,6 +146,10 @@ func ConfigFromEnv(get func(string) string) (Config, error) {
 	if get("ENROL_ALLOW") != "" || get("RESEND_API_KEY") != "" || get("MAIL_FROM") != "" || get("BASE_URL") != "" || get("ADMIN_TOKEN") != "" {
 		if get("ENROL_ALLOW") == "" || get("RESEND_API_KEY") == "" || get("MAIL_FROM") == "" || get("BASE_URL") == "" {
 			return Config{}, errors.New("enrolment requires BASE_URL, ENROL_ALLOW, RESEND_API_KEY and MAIL_FROM")
+		}
+		if admin := get("ADMIN_TOKEN"); admin != "" && len(admin) < MinAdminTokenLength {
+			// Fail closed: a short operator token is guessable.
+			return Config{}, fmt.Errorf("ADMIN_TOKEN must be at least %d characters when set", MinAdminTokenLength)
 		}
 		c.EnrolmentConfig = &gate.EnrolmentConfig{BaseURL: get("BASE_URL"), Allow: strings.Split(get("ENROL_ALLOW"), ","), AdminToken: get("ADMIN_TOKEN")}
 		c.ResendAPIKey = get("RESEND_API_KEY")

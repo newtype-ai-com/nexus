@@ -12,8 +12,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: go.mod
       - name: Build
@@ -21,5 +21,11 @@ jobs:
       - name: Vet
         run: go vet ./...
       - name: Unit tests (PostgreSQL tests skip without a database)
-        # TestSelfConsciousEscCancelsContinuation is timing-dependent and flaky.
+        # TestSelfConsciousEscCancelsContinuation (core/selfconscious_test.go)
+        # cancels the engine from a goroutine when the continuation event
+        # arrives and then expects exactly three model rounds. Whether the
+        # cancel lands before or during the third round depends on scheduling,
+        # so it fails intermittently (seen as "rounds 2"). The race is in the
+        # test, not in the engine; the skip keeps CI meaningful until the test
+        # waits for the third round before cancelling.
         run: go test -count=1 -skip '^TestSelfConsciousEscCancelsContinuation$' ./...

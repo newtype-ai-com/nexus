@@ -100,13 +100,13 @@ func TestDSNFDSingleSource(t *testing.T) {
 
 func TestDSNFDContents(t *testing.T) {
 	// verify-full/CA/port are ConfigFromEnv's checks (TestDSNFDErrorsNeverEchoTheDSN)
-	good := "postgres://newtype_migrator:" + fdSentinel + "@127.0.0.1:5432/postgres?sslmode=disable"
+	good := "postgres://nexus_migrator:" + fdSentinel + "@127.0.0.1:5432/postgres?sslmode=disable"
 	if dsn, err := checkDSN([]byte(good + "\n")); err != nil || dsn != good {
 		t.Fatal(err)
 	}
 	for _, bad := range []string{
-		"", "\n", "postgres://newtype_migrator@db.example.test:5432/postgres?sslmode=verify-full",
-		"postgres://newtype_migrator:@db.example.test:5432/postgres?sslmode=verify-full",
+		"", "\n", "postgres://nexus_migrator@db.example.test:5432/postgres?sslmode=verify-full",
+		"postgres://nexus_migrator:@db.example.test:5432/postgres?sslmode=verify-full",
 		good + "&passfile=/tmp/p", good + "&service=x", good + "&servicefile=/x", good + "&sslkey=/k",
 		strings.Replace(good, "disable", "prefer", 1), good + "&sslrootcert=/nonexistent/ca.crt", "mysql://u:p@h/db", good + "\n\n", good + "\x00",
 		"host=db user=u password=p sslmode=verify-full", string([]byte{0xff, 0xfe}),
@@ -149,13 +149,13 @@ func TestPasswordFDPayloadAndTemplate(t *testing.T) {
 			t.Fatalf("accepted %q", bad)
 		}
 	}
-	tmpl := "postgres://newtype_migrator@127.0.0.1:5432/postgres?sslmode=disable"
+	tmpl := "postgres://nexus_migrator@127.0.0.1:5432/postgres?sslmode=disable"
 	if checkURL(tmpl, false) != nil {
 		t.Fatal("template refused")
 	}
 	for _, bad := range []string{
-		"postgres://newtype_migrator:" + fdSentinel + "@127.0.0.1:5432/postgres?sslmode=disable",
-		"postgres://newtype_migrator:@127.0.0.1:5432/postgres?sslmode=disable",
+		"postgres://nexus_migrator:" + fdSentinel + "@127.0.0.1:5432/postgres?sslmode=disable",
+		"postgres://nexus_migrator:@127.0.0.1:5432/postgres?sslmode=disable",
 		tmpl + "&password=x", tmpl + "&passfile=/p", "postgres://127.0.0.1:5432/postgres?sslmode=disable",
 	} {
 		if checkURL(bad, false) == nil {
@@ -240,7 +240,7 @@ func TestDSNFDRequiresEOF(t *testing.T) {
 }
 
 func TestDSNFDErrorsNeverEchoTheDSN(t *testing.T) {
-	env := []string{"NEXUS_DB_SCHEMA=nexus_fixture", "NEXUS_DB_ROLE=newtype_migrator"}
+	env := []string{"NEXUS_DB_SCHEMA=nexus_fixture", "NEXUS_DB_ROLE=nexus_migrator"}
 	for _, dsn := range []string{
 		"postgres://u:" + fdSentinel + "@db.example.test:6543/postgres?sslmode=verify-full",
 		"postgres://u:" + fdSentinel + "@db.example.test:5432/postgres?sslmode=require",

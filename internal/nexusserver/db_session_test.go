@@ -3,10 +3,10 @@ package nexusserver
 import "testing"
 
 func TestDBSessionConfig(t *testing.T) {
-	base := map[string]string{"DATABASE_URL": "postgres://user:fixture@127.0.0.1/db?sslmode=disable", "NEXUS_DB_SCHEMA": "private_test", "NEXUS_ALLOW_LOCAL_DB": "1", "NEXUS_DB_ROLE": "newtype_migrator", "NEXUS_DB_STATEMENT_TIMEOUT_MS": "60000", "NEXUS_DB_LOCK_TIMEOUT_MS": "5000"}
+	base := map[string]string{"DATABASE_URL": "postgres://user:fixture@127.0.0.1/db?sslmode=disable", "NEXUS_DB_SCHEMA": "private_test", "NEXUS_ALLOW_LOCAL_DB": "1", "NEXUS_DB_ROLE": "nexus_migrator", "NEXUS_DB_STATEMENT_TIMEOUT_MS": "60000", "NEXUS_DB_LOCK_TIMEOUT_MS": "5000"}
 	get := func(k string) string { return base[k] }
 	cfg, err := ConfigFromEnv(get)
-	if err != nil || cfg.DBRole != "newtype_migrator" || cfg.DBStatementTimeoutMS != 60000 || cfg.DBLockTimeoutMS != 5000 {
+	if err != nil || cfg.DBRole != "nexus_migrator" || cfg.DBStatementTimeoutMS != 60000 || cfg.DBLockTimeoutMS != 5000 {
 		t.Fatalf("session config: %v", err)
 	}
 	for key, values := range map[string][]string{

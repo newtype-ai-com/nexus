@@ -88,6 +88,8 @@ func TestInstallRoutesContentAndHeaders(t *testing.T) {
 		"never generate,",
 		"owner's first enrolment approval",
 		"docker compose run --rm enrol-owner",
+		"off by default in the server",
+		"set it to 0 after the owner has enrolled",
 		"newtype auth enrol --gate-url https://<your-domain> --code\n",
 		"STOP: this opens public ports 80",
 		"plain http only on 127.0.0.1",
