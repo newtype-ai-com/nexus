@@ -1,0 +1,25 @@
+# Default deny: only the Go packages the nexus binary needs enter the context.
+# Regenerate the list with: go list -deps ./cmd/nexus | grep newtype-ai-com/nexus
+**
+!go.mod
+!go.sum
+!ids/**
+!redact/**
+!seal/**
+!core/**
+!nexus/**
+!gate/**
+!internal/modelerror/**
+!internal/streamprogress/**
+!internal/nexustransport/**
+!internal/nexusops/**
+!internal/release/**
+!internal/nexusserver/**
+!internal/nmcp/**
+!internal/mcpauth/**
+!cmd/nexus/**
+**/*_test.go
+**/testdata/**
+**/.env*
+**/*.key
+**/*.pem

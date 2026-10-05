@@ -1,0 +1,9 @@
+# Public HTTPS in front of Nexus. Caddy obtains the certificate itself
+# (ACME) once DNS for NEXUS_DOMAIN points here and ports 80/443 are open.
+{$NEXUS_DOMAIN} {
+	encode zstd gzip
+	# Long-lived streams (/v1/sessions/*/stream, /mcp) must not be buffered.
+	reverse_proxy nexus:8080 {
+		flush_interval -1
+	}
+}

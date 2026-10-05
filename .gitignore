@@ -1,0 +1,22 @@
+# Build output
+/bin/
+/dist/
+*.test
+*.out
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.dump
+
+# Self-host kit local files
+deploy/selfhost/dev/certs/
+deploy/selfhost/dev/bin/
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store

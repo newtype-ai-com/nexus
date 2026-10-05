@@ -1,0 +1,375 @@
+{
+  "note": "shared Go/Python typed-payload vectors (raw delivered bytes)",
+  "schema": "newtype.plan3-payload/1",
+  "vectors": [
+    {
+      "name": "admin ok",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": true
+    },
+    {
+      "name": "admin ok spaced",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjogInR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0IiwgInZlcnNpb24iOiAxfQ==",
+      "accept": true
+    },
+    {
+      "name": "admin short",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoic2hvcnQiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_approval_admin"
+    },
+    {
+      "name": "admin version true",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjp0cnVlfQ==",
+      "accept": false,
+      "reason": "payload_approval_admin"
+    },
+    {
+      "name": "admin version 1.0",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoxLjB9",
+      "accept": false,
+      "reason": "payload_approval_admin"
+    },
+    {
+      "name": "admin version string",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoiMSJ9",
+      "accept": false,
+      "reason": "payload_approval_admin"
+    },
+    {
+      "name": "admin extra key",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoxLCJ4IjoxfQ==",
+      "accept": false,
+      "reason": "payload_shape"
+    },
+    {
+      "name": "admin duplicate key",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_shape"
+    },
+    {
+      "name": "admin trailing newline",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoxfQo=",
+      "accept": false,
+      "reason": "payload_shape"
+    },
+    {
+      "name": "admin leading space",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "IHsiYWRtaW5Ub2tlbiI6InR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0IiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_shape"
+    },
+    {
+      "name": "db payload as admin",
+      "schema": "approval-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtUFctMTYiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_shape"
+    },
+    {
+      "name": "runtime ok",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtcHJvZHVjdGlvbiIsInJ1bnRpbWVQYXNzd29yZCI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": true
+    },
+    {
+      "name": "runtime other env",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtc3RhZ2luZyIsInJ1bnRpbWVQYXNzd29yZCI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_environment"
+    },
+    {
+      "name": "runtime bad env grammar",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6IlNJVEUiLCJydW50aW1lUGFzc3dvcmQiOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBIiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_runtime"
+    },
+    {
+      "name": "runtime padded",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtcHJvZHVjdGlvbiIsInJ1bnRpbWVQYXNzd29yZCI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUE9IiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_runtime"
+    },
+    {
+      "name": "runtime 42 chars",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtcHJvZHVjdGlvbiIsInJ1bnRpbWVQYXNzd29yZCI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_runtime"
+    },
+    {
+      "name": "runtime noncanonical bits",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtcHJvZHVjdGlvbiIsInJ1bnRpbWVQYXNzd29yZCI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUIiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_runtime"
+    },
+    {
+      "name": "runtime standard alphabet",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtcHJvZHVjdGlvbiIsInJ1bnRpbWVQYXNzd29yZCI6IkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSsiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_runtime"
+    },
+    {
+      "name": "runtime nested",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6WyJzaXRlLXByb2R1Y3Rpb24iXSwicnVudGltZVBhc3N3b3JkIjoiQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_shape"
+    },
+    {
+      "name": "db ok",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtUFctMTYiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": true
+    },
+    {
+      "name": "db 16 bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoicHBwcHBwcHBwcHBwcHBwcCIsInZlcnNpb24iOjF9",
+      "accept": true
+    },
+    {
+      "name": "db 15 bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoicHBwcHBwcHBwcHBwcHBwIiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_db_admin"
+    },
+    {
+      "name": "db 512 bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoicHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHAiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": true
+    },
+    {
+      "name": "db 513 bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoicHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwIiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_db_admin"
+    },
+    {
+      "name": "db multibyte counts bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiw6nDqcOpw6nDqcOpw6nDqSIsInZlcnNpb24iOjF9",
+      "accept": true
+    },
+    {
+      "name": "db valid surrogate pair",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUt8J+YgCIsInZlcnNpb24iOjF9",
+      "accept": true
+    },
+    {
+      "name": "db literal U+FFFD",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUt77+9IiwidmVyc2lvbiI6MX0=",
+      "accept": true
+    },
+    {
+      "name": "db lone high surrogate",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHVkODAweCIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "db lone low surrogate",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHVkYzAweCIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "db invalid utf-8",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUt/y0iLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "db C0 control",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHUwMDAxLSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_db_admin"
+    },
+    {
+      "name": "db DEL",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHUwMDdmLSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_db_admin"
+    },
+    {
+      "name": "db C1 control",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHUwMDg1LSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_db_admin"
+    },
+    {
+      "name": "db empty",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "",
+      "accept": false,
+      "reason": "payload_size"
+    },
+    {
+      "name": "db exactly 4096 delivered bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoicHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHAiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_db_admin"
+    },
+    {
+      "name": "db 4097 delivered bytes",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyAiZGJQYXNzd29yZCI6InBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwIiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_size"
+    },
+    {
+      "name": "runtime wrong env and bad password",
+      "schema": "runtime-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJlbnZpcm9ubWVudCI6InNpdGUtc3RhZ2luZyIsInJ1bnRpbWVQYXNzd29yZCI6InNob3J0ISIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_environment"
+    },
+    {
+      "name": "db escape with space",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHUgMDg1LSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "db escape with sign",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHUrMDg1LSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "db escape non-hex",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHUwMGcxLSIsInZlcnNpb24iOjF9",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "db high surrogate then bad low",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJkYlBhc3N3b3JkIjoiUFVCTElDLUZJWFRVUkUtXHVkODNkXHUgMDAtIiwidmVyc2lvbiI6MX0=",
+      "accept": false,
+      "reason": "payload_encoding"
+    },
+    {
+      "name": "admin payload as db",
+      "schema": "db-admin-wire/1",
+      "expected_environment": "site-production",
+      "max_bytes": 4096,
+      "raw_b64": "eyJhZG1pblRva2VuIjoidHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHQiLCJ2ZXJzaW9uIjoxfQ==",
+      "accept": false,
+      "reason": "payload_shape"
+    }
+  ]
+}

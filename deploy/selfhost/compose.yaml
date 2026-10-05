@@ -1,0 +1,107 @@
+# Self-hosted Nexus: PostgreSQL 17 + the nexus server (+ optional Caddy TLS).
+# Guide: docs/selfhost.md. Quick order (run in this directory):
+#   cp .env.example .env && edit .env          # secrets: see .env.example
+#   docker compose build nexus
+#   docker compose up -d postgres
+#   docker compose run --rm nexus migrate      # ALWAYS before first start and after every upgrade
+#   docker compose up -d nexus
+#   curl -fsS http://127.0.0.1:8080/v1/health
+#   docker compose run --rm enrol-owner        # one-time owner code (NEXUS_OWNER_CODE=1)
+#   docker compose --profile tls up -d caddy   # optional public HTTPS
+name: nexus-selfhost
+
+services:
+  postgres:
+    image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nexus
+      POSTGRES_USER: nexus
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}"
+      # SCRAM even on loopback TCP; the unix socket (entrypoint init) stays local.
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=trust"
+    # Postgres listens on loopback only. nexus shares this network namespace
+    # (network_mode below), so it reaches the database at 127.0.0.1:5432 and
+    # the database is never exposed on the compose network.
+    command: ["postgres", "-c", "listen_addresses=127.0.0.1"]
+    # The nexus HTTP port lives in this shared namespace, so it is published
+    # here: loopback only. Public access goes through Caddy or a tunnel.
+    ports:
+      - "127.0.0.1:${NEXUS_HTTP_PORT:-8080}:8080"
+    networks:
+      default:
+        aliases: [nexus]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U nexus -d nexus"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  nexus:
+    build:
+      context: ../..
+      dockerfile: deploy/selfhost/Dockerfile
+    image: "${NEXUS_IMAGE:-newtype-nexus:local}"
+    command: ["serve"]
+    restart: unless-stopped
+    network_mode: "service:postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      # Loopback database in the shared namespace. NEXUS_ALLOW_LOCAL_DB is the
+      # server's loopback exception (it refuses any non-loopback database
+      # without sslmode=verify-full); SCRAM stays required.
+      DATABASE_URL: "postgres://nexus:${POSTGRES_PASSWORD}@127.0.0.1:5432/nexus?sslmode=disable"
+      NEXUS_ALLOW_LOCAL_DB: "1"
+      NEXUS_DB_REQUIRE_SCRAM: "1"
+      NEXUS_DB_SCHEMA: "${NEXUS_DB_SCHEMA:-nexus}"
+      PORT: "8080"
+    volumes:
+      - nexusdata:/data
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    mem_limit: 512m
+    stop_grace_period: 30s
+
+  # Operator-only, mail-free owner bootstrap (needs NEXUS_OWNER_CODE=1):
+  #   docker compose run --rm enrol-owner
+  # Nexus does not write the code anywhere; container stdout would follow the
+  # Docker log driver, so logging is off for this one-shot service.
+  enrol-owner:
+    profiles: ["operator"]
+    extends:
+      service: nexus
+    command: ["enrol-owner"]
+    restart: "no"
+    logging:
+      driver: none
+
+  # Optional public HTTPS (profile "tls"). Needs a DNS name pointing at this
+  # host and ports 80/443 open. See Caddyfile.
+  caddy:
+    profiles: ["tls"]
+    image: caddy:2@sha256:3422ce6de165df66534f9b9ba50efaf457114ec961763cc52f5dbdaac2972d73
+    restart: unless-stopped
+    depends_on: [nexus]
+    environment:
+      NEXUS_DOMAIN: "${NEXUS_DOMAIN:-}"  # required for this profile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+      - caddyconfig:/config
+
+volumes:
+  pgdata:
+  nexusdata:
+  caddydata:
+  caddyconfig:

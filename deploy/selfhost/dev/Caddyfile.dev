@@ -1,0 +1,7 @@
+# LOCAL TRIAL ONLY: HTTPS for nexus.localtest with the throwaway dev CA.
+nexus.localtest {
+	tls /certs/nexus.localtest.crt /certs/nexus.localtest.key
+	reverse_proxy nexus:8080 {
+		flush_interval -1
+	}
+}

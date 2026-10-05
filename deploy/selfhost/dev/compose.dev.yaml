@@ -1,0 +1,69 @@
+# LOCAL TRIAL ONLY (docs/selfhost.md, "로컬 시험"). Layered on compose.yaml:
+#   docker compose -f compose.yaml -f dev/compose.dev.yaml ...
+# Adds HTTPS at https://nexus.localtest (dev CA), a mail sink that stands in
+# for Resend (mail is printed to `docker compose logs mailsink`), and a Linux
+# client container. Nothing leaves the machine; ports bind 127.0.0.1 only.
+services:
+  nexus:
+    environment:
+      # Hard-set: this overlay only ever serves https://nexus.localtest, so a
+      # real .env can never be paired with the dev CA and mail sink.
+      BASE_URL: https://nexus.localtest
+      # Only when sealing is configured (SEAL_ISSUER needs the other three).
+      SEAL_ISSUER: "${SEAL_MASTER:+https://nexus.localtest}"
+      NEXUS_MCP_ISSUER: https://nexus.localtest
+      # Trust only the dev CA (reaches the mail sink as api.resend.com).
+      SSL_CERT_FILE: /certs/ca.crt
+    volumes:
+      - ./dev/certs/ca.crt:/certs/ca.crt:ro
+    depends_on:
+      mailsink:
+        condition: service_started
+
+  mailsink:
+    image: python:3.13-alpine@sha256:2d9aefe2fef018a7eb2c13064c89c71929800fd2e5dccdbf52ea5da5bb8d929a
+    command: ["python", "-u", "/app/mailsink.py"]
+    environment:
+      # The .env base (compose interpolation only, no other value). The sink
+      # refuses to start unless it is the local trial origin.
+      DEV_BASE_URL: "${BASE_URL:-}"
+    networks:
+      default:
+        aliases: [api.resend.com]
+    volumes:
+      - ./dev/mailsink.py:/app/mailsink.py:ro
+      - ./dev/certs/api.resend.com.crt:/certs/api.resend.com.crt:ro
+      - ./dev/certs/api.resend.com.key:/certs/api.resend.com.key:ro
+
+  caddy:
+    profiles: []
+    environment:
+      NEXUS_DOMAIN: nexus.localtest
+    ports: !override
+      - "127.0.0.1:8443:443"
+    networks:
+      default:
+        aliases: [nexus.localtest]
+    volumes: !override
+      - ./dev/Caddyfile.dev:/etc/caddy/Caddyfile:ro
+      - ./dev/certs/nexus.localtest.crt:/certs/nexus.localtest.crt:ro
+      - ./dev/certs/nexus.localtest.key:/certs/nexus.localtest.key:ro
+
+  # A Linux client: on Linux, Go honours SSL_CERT_FILE, so the dev CA is
+  # trusted without touching the host's trust store. Mount a linux build of
+  # newtype at ./dev/bin/newtype (see docs/selfhost.md).
+  client:
+    profiles: ["client"]
+    image: python:3.13-alpine@sha256:2d9aefe2fef018a7eb2c13064c89c71929800fd2e5dccdbf52ea5da5bb8d929a
+    environment:
+      SSL_CERT_FILE: /certs/ca.crt
+      HOME: /home/client
+    working_dir: /home/client
+    volumes:
+      - ./dev/bin:/opt/newtype:ro
+      - ./dev/certs/ca.crt:/certs/ca.crt:ro
+      - clienthome:/home/client
+    entrypoint: ["/opt/newtype/newtype"]
+
+volumes:
+  clienthome:
